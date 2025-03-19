@@ -1,0 +1,190 @@
+{% extends 'portfolio/base.html' %}
+{% load form_tags %}
+{% load static %}
+{% block content %}
+
+<!-- Welcome Section -->
+<section id="intro" class="text-center my-5">
+    <div class="row align-items-center">
+        <!-- Profile Image -->
+        <div class="col-md-4 mb-4">
+            <img src="{% static 'images/profile.png' %}" 
+                 class="img-fluid rounded-circle shadow-lg border border-3 border-primary" 
+                 alt="My Photo" 
+                 style="width: 250px; height: 250px; object-fit: cover;">
+        </div>
+
+        <!-- Introduction Text -->
+        <div class="col-md-8">
+            <h1 class="display-4 fw-bold" style="color: var(--text-color);">
+                Hi, I'm <span class="text-primary">Alok Tiwari</span>
+            </h1>
+            
+            <p class="lead fw-medium" style="font-size: 1.3rem; color: var(--text-color);">
+                A <span class="fw-bold text-primary">Data Analyst</span> & 
+                <span class="fw-bold text-success">Machine Learning Specialist</span>, 
+                passionate about turning data into insights.
+            </p>
+
+            <a href="#contact" class="btn btn-primary mt-3 px-4 py-2 rounded-pill shadow-sm">
+                Let's Connect
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="my-5 text-center">
+    <h2 class="fw-bold text-uppercase mb-4" style="color: var(--text-color);">Projects</h2>
+
+    <div class="mb-3">
+        {% for key, value in categories %}
+            <a href="?category={{ key }}" class="btn btn-outline-primary {% if selected_category == key %}active{% endif %}">
+                {{ value }}
+            </a>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        {% for project in projects %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0">
+                    {% if project.demo_image %}
+                        <img src="{{ project.demo_image.url }}" class="card-img-top" alt="{{ project.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="fw-bold">{{ project.title }}</h5>
+                        <p class="text-muted">{{ project.description|truncatewords:20 }}</p>
+                        <a href="{{ project.demo_link }}" target="_blank" class="btn btn-outline-primary">View Demo</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+        <p class="text-center" style="color: var(--text-color);"> No projects available.</p>
+        
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="my-5 text-center">
+    <h2 class="fw-bold text-uppercase mb-4" style="color: var(--text-color);">Skills</h2>
+    <div class="row justify-content-center">
+        {% for skill in skills %}
+            <div class="col-md-3 mb-3">
+                <div class="card p-3 border-0 shadow-sm">
+                    <h5 class="fw-bold text-primary">{{ skill.name }}</h5>
+                    <p class="text-muted small">{{ skill.category }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">No skills added yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Certifications Section -->
+<section id="certifications" class="my-5 text-center">
+    <h2 class="fw-bold text-uppercase mb-4" style="color: var(--text-color);">Certifications</h2>
+
+    <div class="mb-4">
+        <strong class="text-uppercase" style="color: var(--text-color);"> Filter by Source: </strong>
+        {% for source_code, source_name in sources %}
+            <a href="?source={{ source_code }}" class="btn btn-outline-primary btn-sm mx-1 {% if selected_source == source_code %}active{% endif %}">
+                {{ source_name }}
+            </a>
+        {% endfor %}
+    </div>
+
+    <div class="row justify-content-center">
+        {% for cert in certifications %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card text-center shadow-sm border-0 p-3">
+                    <div class="card-body">
+                        <h5 class="fw-bold text-primary">{{ cert.name }}</h5>
+                        <p class="text-muted small">{{ cert.source }}</p>
+                        {% if cert.link %}
+                            <a href="{{ cert.link }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                View Certificate
+                            </a>
+                        {% endif %}
+                        <div class="mt-3">
+                            <span class="badge bg-primary text-white px-3 py-2">
+                                {{ cert.issue_date|date:"M. d, Y" }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">No certifications added yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="resume" class="my-5 theme-section text-center">
+    <h2 class="mb-4">My Resume</h2>
+    {% if resume and resume.file %}
+        <p>Click below to view or download my resume.</p>
+        <a href="{{ resume.file.url }}" target="_blank" class="btn btn-primary m-2">View Resume</a>
+        <a href="{{ resume.file.url }}" download class="btn btn-outline-secondary m-2">Download Resume</a>
+    {% else %}
+        <p>Resume not uploaded yet.</p>
+    {% endif %}
+</section>
+
+
+<!-- Contact Me Section -->
+<section id="contact" class="my-5 p-4 shadow-sm rounded border text-center"
+    style="background: rgba(255, 255, 255, 0.1); 
+           border: 2px solid rgba(255, 255, 255, 0.3); 
+           backdrop-filter: blur(10px); 
+           color: var(--text-color);">
+
+        <h2 class="fw-bold text-uppercase mb-4" style="color: var(--text-color);">Contact Me</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" class="row g-3">
+        {% csrf_token %}
+        <div class="col-md-6">
+            {{ form.name.label_tag }}
+            {{ form.name|add_class:"form-control shadow-sm" }}
+        </div>
+        <div class="col-md-6">
+            {{ form.email.label_tag }}
+            {{ form.email|add_class:"form-control shadow-sm" }}
+        </div>
+        <div class="col-12">
+            {{ form.message.label_tag }}
+            {{ form.message|add_class:"form-control shadow-sm" }}
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary px-4 py-2">Send Message</button>
+        </div>
+    </form>
+</section>
+<section id="contact-links" class="text-center my-4">
+    <h3>Connect with Me</h3>
+    
+    <!-- LinkedIn Button -->
+    <a href="https://www.linkedin.com/in/alok-tiwari-23as2" target="_blank" class="btn btn-primary m-2">
+        <i class="fab fa-linkedin"></i> LinkedIn
+    </a>
+    
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/+919405321773" target="_blank" class="btn btn-success m-2">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+    </a>
+    
+    <!-- Phone Call Button -->
+    <a href="tel:+919405321773" class="btn btn-dark m-2">
+        <i class="fas fa-phone"></i> Call Me
+    </a>
+</section>
+
+{% endblock %}
