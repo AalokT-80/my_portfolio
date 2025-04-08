@@ -4,6 +4,9 @@ from django.core.mail import send_mail
 from .forms import ContactForm
 from django.contrib import messages
 
+from django.core.management import call_command
+call_command('migrate')
+
 def home(request):
     selected_category = request.GET.get('category')
     selected_source = request.GET.get('source', Certification.GOOGLE)  # Default to Google if no source selected

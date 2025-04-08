@@ -1,0 +1,31 @@
+Folder PATH listing for volume Windows
+Volume serial number is AAC5-EAC8
+C:.
+¦   media_structure.txt
+¦   
++---certificates
+¦       basics_of_python.pdf
+¦       certificate.pdf
+¦       Course-1.pdf
+¦       Course-1_qyIZG75.pdf
+¦       Course-1_s0z1hco.pdf
+¦       Course-2.pdf
+¦       Course-2_5vNxdxD.pdf
+¦       Course-2_yyBE87H.pdf
+¦       Course-2_zONcMKM.pdf
+¦       Data_Science_for_Engineers.pdf
+¦       presentation.pdf
+¦       python-kaggle.pdf
+¦       python.pdf
+¦       
++---internship_certificates
+¦       internship_certificate-Python.pdf
+¦       
++---project_images
+¦       output_image.jpg
+¦       passport_.jpg
+¦       
++---resumes
+        Alok_Tiwari_Resume.pdf
+        Alok_Tiwari_Resume_q7dq7ju.pdf
+        
