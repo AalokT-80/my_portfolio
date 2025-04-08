@@ -31,12 +31,25 @@ SECRET_KEY = 'django-insecure-&i-yapud^@2)@77*eh(ioyrv1buans=%kkbw@jq88ly=(8gz=m
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
+import cloudinary
+import cloudinary_storage
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'danqibpnf',
+    'API_KEY': '692613755368349',
+    'API_SECRET': 'u4aiqrwqpp83_CcZ1pJ9YBytJ7A'
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'cloudinary',
+    'cloudinary_storage',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
